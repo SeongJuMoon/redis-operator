@@ -139,6 +139,7 @@ func (r *RedisReconciler) generateRedisDeployment(re *webappv1.Redis) *appsv1.De
 				ObjectMeta: metav1.ObjectMeta{Labels: labels},
 				Spec: v1.PodSpec{Containers: []v1.Container{
 					{
+						Name:  OperatedContainerName,
 						Image: fmt.Sprintf("%s:%s", OperatedContainerName, version),
 						Ports: []v1.ContainerPort{
 							{
