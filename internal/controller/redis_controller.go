@@ -47,6 +47,7 @@ type RedisReconciler struct {
 //+kubebuilder:rbac:groups=webapp.overconfigured.dev,resources=redis,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=webapp.overconfigured.dev,resources=redis/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=webapp.overconfigured.dev,resources=redis/finalizers,verbs=update
+//+kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;delete
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -131,6 +132,9 @@ func (r *RedisReconciler) generateRedisDeployment(re *webappv1.Redis) *appsv1.De
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: &replicas,
+			Selector: &metav1.LabelSelector{
+				MatchLabels: labels,
+			},
 			Template: v1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{Labels: labels},
 				Spec: v1.PodSpec{Containers: []v1.Container{
