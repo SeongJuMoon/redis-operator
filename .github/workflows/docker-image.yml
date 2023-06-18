@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Operator Image CI
 
 on:
   push:
@@ -7,13 +7,18 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
     
+    - name: Docker Login
+      uses: docker/login-action@v2.2.0
+      with:
+        registry: registry.docker.io
+        username: ${secrets.registry_username}
+        password: ${secrets.registry_password}
+        
     - name: make docker-build and push
       run: make docker-build && make docker-push
