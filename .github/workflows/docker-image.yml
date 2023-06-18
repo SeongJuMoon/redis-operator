@@ -16,8 +16,8 @@ jobs:
     - name: Docker Login
       uses: docker/login-action@v2.2.0
       with:
-        username: ${secrets.REGISTRY_USERNAME}
-        password: ${secrets.REGISTERY_ACCESS_TOKEN}
+        username: ${{secrets.REGISTRY_USERNAME}}
+        password: ${{secrets.REGISTERY_ACCESS_TOKEN}}
         
     - name: make docker-build and push
       run: make docker-build && make docker-push
